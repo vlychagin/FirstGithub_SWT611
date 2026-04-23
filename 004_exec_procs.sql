@@ -54,4 +54,34 @@ go
 -- приема, Зарплата. Сортировка по полю Фамилия врача
 exec GetDoctorsSalary;
 go
- 
+ 	 	
+
+-- Запрос 7. Хранимая процедура без параметров
+-- Выполняет группировку по полю Дата приема. 
+-- Для каждой даты вычисляет минимальную стоимость приема
+exec AppointmentsDateReport;
+go
+
+
+-- Запрос 8. Хранимая процедура без параметров
+-- Для ВСЕХ докторов вычисляет количество приемов, сумму оплат за приемы
+exec AllDoctorsAppointmentsSalaryReport;
+go
+
+-- Запрос 9. Хранимая процедура без параметров
+-- Для ВСЕХ пациентов определить количество приемов
+exec AllPatientsAppointmentsAmountReport;    
+go
+
+insert Appointments
+    (AppointmentDate, PatientId, DoctorId)
+values
+--    мм-дд-гг
+    ('15-04-26',  4,  1);
+go
+
+delete from 
+    Appointments
+where 
+    AppointmentDate = '15-04-26' and PatientId = 4 and DoctorId = 1;
+go

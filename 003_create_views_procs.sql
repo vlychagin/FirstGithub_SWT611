@@ -214,3 +214,73 @@ begin
 end;
 go
  	 	
+
+-- Запрос 7. Хранимая процедура без параметров
+-- Выполняет группировку по полю Дата приема. 
+-- Для каждой даты вычисляет минимальную стоимость приема
+create or alter proc AppointmentsDateReport
+as 
+begin
+    select
+        AppointmentDate
+        , min(Price)    as MinPrice
+        , count(*)      as AppointmentsAmount
+    from
+        ViewAppointments
+    group by
+        AppointmentDate;
+    end;
+go
+
+
+-- Запрос 8. Хранимая процедура без параметров
+-- Для ВСЕХ докторов вычисляет количество приемов, сумму оплат за приемы
+create or alter proc AllDoctorsAppointmentsSalaryReport
+as
+    select
+        ViewDoctors.Id
+        , ViewDoctors.DoctorSurname
+        , ViewDoctors.DoctorName
+        , ViewDoctors.DoctorPatronymic
+        , ViewDoctors.Price
+        , ViewDoctors.Speciality
+
+        , count(ViewAppointments.DoctorId) as AppointmentAmount
+        , count(ViewAppointments.DoctorId) * ViewDoctors.Price as TotalPrice
+    from 
+        ViewDoctors
+        left join 
+        ViewAppointments on ViewDoctors.Id = ViewAppointments.DoctorId
+    group by
+        ViewDoctors.Id
+        , ViewDoctors.DoctorSurname
+        , ViewDoctors.DoctorName
+        , ViewDoctors.DoctorPatronymic
+        , ViewDoctors.Price
+        , ViewDoctors.Speciality;
+go
+
+
+-- Запрос 9. Хранимая процедура без параметров
+-- Для ВСЕХ пациентов определить количество приемов
+create or alter proc AllPatientsAppointmentsAmountReport
+as
+    select 
+        ViewPatients.Id
+        , ViewPatients.PatientSurname
+        , ViewPatients.PatientName
+        , ViewPatients.PatientPatronymic
+        , ViewPatients.BornDate
+        
+        , year(GetDate()) - year(ViewPatients.BornDate ) as Age
+        , count(ViewAppointments.PatientId) as Amount
+    from 
+        ViewPatients left join ViewAppointments on ViewPatients.Id = ViewAppointments.PatientId
+    group BY
+        ViewPatients.Id
+        , ViewPatients.PatientSurname
+        , ViewPatients.PatientName
+        , ViewPatients.PatientPatronymic
+        , ViewPatients.BornDate
+        , year(getDate()) - year(ViewPatients.BornDate);    
+go
