@@ -33,16 +33,16 @@ go
 
 -- Запрос 4. Хранимая процедура с параметром	
 -- Выбирает информацию о врачах с заданным значением в поле Стоимость приема. 
-exec GetDoctorsWherePriceEq 600;    
-exec GetDoctorsWherePriceEq 3300;    
+exec GetDoctorsWherePriceEq 100;    
 exec GetDoctorsWherePriceEq 1300;    
+exec GetDoctorsWherePriceEq 5300;    
 go
 
 
 -- Запрос 5. Хранимая процедура с параметрами	
 -- Выбирает информацию о врачах, Процент отчисления на зарплату которых находится 
 -- в некотором заданном диапазоне. 
-exec GetDoctorsWherePercentBetween 1.5, 3.5;
+exec GetDoctorsWherePercentBetween 0.5, 5.5;
 exec GetDoctorsWherePercentBetween 4.5, 2.5;
 exec GetDoctorsWherePercentBetween 4.5, 7.5;    
 go
