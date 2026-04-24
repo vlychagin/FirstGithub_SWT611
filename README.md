@@ -10,7 +10,7 @@
     git remote add origin https://github.com/vlychagin/FirstGithub_SWT611.git
     git push -u origin master
 
-## Для последуюущих коммитов
+## Для последующих коммитов
 
     git add .
     git commit -m'комментарий'
